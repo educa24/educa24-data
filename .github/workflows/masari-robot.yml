@@ -1,0 +1,36 @@
+name: masari-robot
+on:
+  schedule:
+    # every 2 hours from 07:00 to 23:00 (Morocco, UTC+1)
+    - cron: "0 6-22/2 * * *"
+  workflow_dispatch: {}
+permissions:
+  contents: write
+concurrency: masari-robot
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: sudo apt-get install -y poppler-utils
+      - run: pip install -r robot/requirements.txt
+      - name: Robot
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          FCM_SERVICE_ACCOUNT: ${{ secrets.FCM_SERVICE_ACCOUNT }}
+        run: |
+          if [ "$(jq '.seen | length' robot/state.json)" = "0" ]; then
+            python robot/masari_robot.py --init
+          else
+            python robot/masari_robot.py
+          fi
+      - name: Save
+        run: |
+          git config user.name "educa24-robot"
+          git config user.email "robot@users.noreply.github.com"
+          git add masari.json robot/state.json
+          git diff --cached --quiet || (git commit -m "robot: $(date -u +%F' '%H:%M)" && git push)
