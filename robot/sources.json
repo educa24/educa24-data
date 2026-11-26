@@ -1,0 +1,13 @@
+{
+ "_note": "feeds = RSS (only items of the last 4 days are read); pages = pages whose links are scanned. Add or remove freely.",
+ "feeds": [
+  "https://www.tawjihnet.net/feed/",
+  "https://orientation-chabab.com/feed/",
+  "https://www.dreamjob.ma/feed/",
+  "https://www.alwadifa-maroc.com/feed/",
+  "https://www.9alami.info/feed/"
+ ],
+ "pages": [
+  "https://www.men.gov.ma/Ar/Pages/Accueil.aspx"
+ ]
+}
