@@ -1,7 +1,7 @@
 {
- "run": "2026-11-26 12:39 UTC",
- "sources_answering": "24/58",
- "items": 129,
+ "run": "2026-11-26 13:08 UTC",
+ "sources_answering": "21/58",
+ "items": 88,
  "gemini": true,
  "sources": {
   "https://www.tawjihnet.net/feed/": {
@@ -25,7 +25,8 @@
    "error": "HTTP 404"
   },
   "https://www.dreamjob.ma/feed/": {
-   "items": 30
+   "items": null,
+   "error": "HTTP 403"
   },
   "https://www.tawjihnet.net/?s=%D8%A7%D9%84%D8%AD%D8%B1%D9%83%D8%A9%20%D8%A7%D9%84%D8%A7%D9%86%D8%AA%D9%82%D8%A7%D9%84%D9%8A%D8%A9&feed=rss2": {
    "items": 0
@@ -123,19 +124,24 @@
    "items": 0
   },
   "https://www.dreamjob.ma/?s=%D8%A7%D9%84%D8%AD%D8%B1%D9%83%D8%A9%20%D8%A7%D9%84%D8%A7%D9%86%D8%AA%D9%82%D8%A7%D9%84%D9%8A%D8%A9&feed=rss2": {
-   "items": 0
+   "items": null,
+   "error": "HTTP 403"
   },
   "https://www.dreamjob.ma/?s=%D8%A7%D9%84%D8%AA%D8%B1%D9%82%D9%8A%D8%A9%20%D8%A8%D8%A7%D9%84%D8%A7%D8%AE%D8%AA%D9%8A%D8%A7%D8%B1&feed=rss2": {
-   "items": 0
+   "items": null,
+   "error": "skipped (site not answering)"
   },
   "https://www.dreamjob.ma/?s=%D8%A7%D9%84%D9%83%D9%81%D8%A7%D8%A1%D8%A9%20%D8%A7%D9%84%D9%85%D9%87%D9%86%D9%8A%D8%A9&feed=rss2": {
-   "items": 7
+   "items": null,
+   "error": "skipped (site not answering)"
   },
   "https://www.dreamjob.ma/?s=%D9%86%D8%AA%D8%A7%D8%A6%D8%AC%20%D8%A7%D9%84%D8%AD%D8%B1%D9%83%D8%A9&feed=rss2": {
-   "items": 3
+   "items": null,
+   "error": "skipped (site not answering)"
   },
   "https://www.dreamjob.ma/?s=%D9%84%D9%88%D8%A7%D8%A6%D8%AD%20%D8%A7%D9%84%D8%AA%D8%B1%D9%82%D9%8A%D8%A9&feed=rss2": {
-   "items": 0
+   "items": null,
+   "error": "skipped (site not answering)"
   },
   "https://barlamane.com/?s=%D8%A7%D9%84%D8%AD%D8%B1%D9%83%D8%A9%20%D8%A7%D9%84%D8%A7%D9%86%D8%AA%D9%82%D8%A7%D9%84%D9%8A%D8%A9&feed=rss2": {
    "items": 0
@@ -156,7 +162,7 @@
    "items": 2
   },
   "https://www.bing.com/news/search?format=rss&setlang=ar&cc=MA&q=%D8%A7%D9%84%D8%AD%D8%B1%D9%83%D8%A9%20%D8%A7%D9%84%D8%A7%D9%86%D8%AA%D9%82%D8%A7%D9%84%D9%8A%D8%A9%20%D8%A7%D9%84%D9%88%D8%B7%D9%86%D9%8A%D8%A9%20%D8%A7%D9%84%D8%A3%D8%B3%D8%A7%D8%AA%D8%B0%D8%A9": {
-   "items": 3
+   "items": 2
   },
   "https://www.bing.com/news/search?format=rss&setlang=ar&cc=MA&q=%D8%A7%D9%84%D8%AD%D8%B1%D9%83%D8%A9%20%D8%A7%D9%84%D8%A7%D9%86%D8%AA%D9%82%D8%A7%D9%84%D9%8A%D8%A9%20%D8%A7%D9%84%D8%AC%D9%87%D9%88%D9%8A%D8%A9": {
    "items": 3
