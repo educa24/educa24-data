@@ -2,7 +2,8 @@
 """Educa24 «مساري المهني» robot (runs free on GitHub Actions).
 
 Every run:
- 1. Reads fresh news (Google News RSS searches + the sources in sources.json).
+ 1. Reads fresh news from sources.json: RSS feeds, WordPress site searches
+    (site/?s=words&feed=rss2) and Bing News searches, plus a few pages.
  2. Keeps the items about lists/results the app follows (promotion lists,
     professional exam, transfer movements, abroad, inspection, guidance and
     planning, educational administration) and the announcements (registration
@@ -40,7 +41,12 @@ ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "masari.json"
 STATE = ROOT / "robot" / "state.json"
 SOURCES = ROOT / "robot" / "sources.json"
-UA = {"User-Agent": "Mozilla/5.0 (Educa24 robot; +https://www.educa24.ma)"}
+REPORT = ROOT / "robot" / "report.json"
+UA = {
+    "User-Agent": ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                   "(KHTML, like Gecko) Chrome/131.0 Safari/537.36"),
+    "Accept-Language": "ar,fr;q=0.8,en;q=0.6",
+}
 DRY = "--dry" in sys.argv
 INIT = "--init" in sys.argv
 
@@ -59,16 +65,21 @@ ACADEMY_WORDS = [
 
 TYPES = {
     "promotion_lists": ["الترقية بالاختيار", "لوائح الترقية", "الترقي بالاختيار", "جداول الترقي"],
-    "professional_exam": ["امتحان الكفاءة المهنية", "الامتحانات المهنية", "الامتحان المهني"],
-    "movement": ["حركة الانتقالية", "حركات الانتقالية", "حركة انتقالية"],
+    "professional_exam": ["امتحان الكفاءة المهنية", "الامتحانات المهنية", "الامتحان المهني",
+                          "امتحانات الكفاءة المهنية", "الكفاءة المهنية"],
+    "movement": ["حركة الانتقالية", "حركات الانتقالية", "حركة انتقالية", "الحركة المحلية",
+                 "الحركة الجهوية", "الحركة الوطنية", "طلبات الانتقال"],
     "abroad": ["الجالية المغربية", "الأساتذة بالخارج", "تدريس اللغة العربية والثقافة المغربية", "مؤسسة الحسن الثاني"],
     "inspection": ["مركز تكوين مفتشي التعليم", "سلك المفتشين", "التفتيش التربوي"],
     "guidance": ["مركز التوجيه والتخطيط", "التوجيه والتخطيط التربوي"],
     "administration": ["الإدارة التربوية", "أطر الإدارة التربوية", "المناصب الإدارية"],
 }
 TYPE_IDS = {"guidance": "guidance_planning"}  # ids used by the app
-RESULT_WORDS = ["نتائج", "لوائح", "لائحة", "المستفيدين", "الناجحين", "الناجحات", "المقبولين"]
-ANNOUNCE_WORDS = ["فتح باب الترشيح", "بدء التسجيل", "انطلاق عملية", "المذكرة الإطار", "مذكرة وزارية"]
+RESULT_WORDS = ["نتائج", "لوائح", "لائحة", "المستفيدين", "المستفيدات", "الناجحين",
+                "الناجحات", "المقبولين", "الفائزين"]
+ANNOUNCE_WORDS = ["فتح باب الترشيح", "بدء التسجيل", "انطلاق عملية", "المذكرة الإطار",
+                  "مذكرة وزارية", "المذكرة المنظمة", "آخر أجل", "تمديد", "إجراء الحركة",
+                  "المشاركة في الحركة", "التسجيل في", "الترشح"]
 
 
 # ── helpers ─────────────────────────────────────────────────────────────────
@@ -88,16 +99,22 @@ def save(p: Path, obj):
     p.write_text(json.dumps(obj, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
 
 
-def get(url: str, **kw) -> requests.Response | None:
-    for i in range(3):
+LAST_ERROR: dict[str, str] = {}
+DEAD: dict[str, int] = {}  # failures per site during this run
+
+
+def get(url: str, tries: int = 3, timeout: int = 40, **kw) -> requests.Response | None:
+    for i in range(tries):
         try:
-            r = requests.get(url, headers=UA, timeout=40, **kw)
+            r = requests.get(url, headers=UA, timeout=timeout, **kw)
             if r.status_code == 200:
                 return r
             log(f"  HTTP {r.status_code} {url}")
+            LAST_ERROR[url] = f"HTTP {r.status_code}"
             return None
         except Exception as e:  # network hiccup: retry
             log(f"  retry {i + 1} {url}: {e}")
+            LAST_ERROR[url] = type(e).__name__
             time.sleep(4 * (i + 1))
     return None
 
@@ -114,34 +131,77 @@ def school_year_ok(text: str) -> bool:
 
 # ── 1. news items ───────────────────────────────────────────────────────────
 
+STATS: dict[str, dict] = {}  # per source: items read or the error (report.json)
+
+
+def _stat(url: str, n: int | None, err: str = "") -> None:
+    STATS[url] = {"items": n, **({"error": err} if err else {})}
+
+
+def real_url(link: str) -> str:
+    """Bing News links are redirects: the article is in the url= parameter."""
+    if "bing.com/news/apiclick" in link:
+        q = urllib.parse.parse_qs(urllib.parse.urlparse(link).query)
+        if q.get("url"):
+            return q["url"][0]
+    return link
+
+
 def rss(url: str, days: int = 4) -> list[dict]:
-    """Items of an RSS feed published in the last [days] days."""
+    """Items of an RSS / Atom feed published in the last [days] days."""
     from email.utils import parsedate_to_datetime
-    r = get(url)
+    host = urllib.parse.urlparse(url).netloc
+    if DEAD.get(host, 0) >= 2:  # this site failed twice in this run: skip it
+        _stat(url, None, "skipped (site not answering)")
+        return []
+    r = get(url, tries=1, timeout=25)
     if not r:
+        DEAD[host] = DEAD.get(host, 0) + 1
+        _stat(url, None, LAST_ERROR.get(url, "no answer"))
         return []
     items = []
     now = datetime.now(timezone.utc)
-    for m in re.finditer(r"<item>(.*?)</item>", r.text, re.S):
-        it = m.group(1)
-        t = re.search(r"<title>(.*?)</title>", it, re.S)
-        l = re.search(r"<link>(.*?)</link>", it, re.S)
-        d = re.search(r"<pubDate>(.*?)</pubDate>", it, re.S)
+    blocks = re.findall(r"<item[\s>](.*?)</item>", r.text, re.S) or \
+        re.findall(r"<entry[\s>](.*?)</entry>", r.text, re.S)
+    for it in blocks:
+        t = re.search(r"<title[^>]*>(.*?)</title>", it, re.S)
+        l = re.search(r"<link>(.*?)</link>", it, re.S) or \
+            re.search(r'<link[^>]+href="([^"]+)"', it)
+        d = re.search(r"<(?:pubDate|published|updated)>(.*?)</", it, re.S)
         if not (t and l):
             continue
         try:
-            if d and (now - parsedate_to_datetime(d.group(1).strip())).days > days:
-                continue
+            if d:
+                raw = d.group(1).strip()
+                when = (datetime.fromisoformat(raw.replace("Z", "+00:00")) if "T" in raw[:20]
+                        else parsedate_to_datetime(raw))
+                if (now - when).days > days:
+                    continue
         except Exception:
             pass
         title = strip_tags(re.sub(r"<!\[CDATA\[(.*?)\]\]>", r"\1", t.group(1), flags=re.S))
-        items.append({"title": title, "url": strip_tags(l.group(1)), "fresh": True})
+        link = real_url(html.unescape(strip_tags(re.sub(r"<!\[CDATA\[(.*?)\]\]>", r"\1", l.group(1)))))
+        items.append({"title": title, "url": link, "fresh": True})
+    _stat(url, len(items))
     return items
+
+
+def search_feeds(cfg: dict) -> list[str]:
+    """WordPress searches (site/?s=words&feed=rss2) and Bing News searches."""
+    out = []
+    for site in cfg.get("wordpress_sites", []):
+        for w in cfg.get("search_words", []):
+            out.append(f"{site.rstrip('/')}/?s={urllib.parse.quote(w)}&feed=rss2")
+    for w in cfg.get("bing_news", []):
+        out.append("https://www.bing.com/news/search?format=rss&setlang=ar&cc=MA&q="
+                   + urllib.parse.quote(w))
+    return out
 
 
 def page_links(url: str) -> list[dict]:
     r = get(url)
     if not r:
+        _stat(url, None, LAST_ERROR.get(url, "no answer"))
         return []
     out = []
     for m in re.finditer(r'<a[^>]+href="([^"]+)"[^>]*>(.*?)</a>', r.text, re.S | re.I):
@@ -149,7 +209,15 @@ def page_links(url: str) -> list[dict]:
         if len(text) < 8:
             continue
         out.append({"title": text, "url": urllib.parse.urljoin(r.url, href)})
+    _stat(url, len(out))
     return out
+
+
+def norm_title(t: str) -> str:
+    """Same news on several sites: compare titles without punctuation/spaces."""
+    t = re.sub(r"[\u064B-\u0652ـ]", "", t)  # harakat, tatweel
+    t = re.sub(r"[^\w]+", " ", t).strip()
+    return " ".join(t.split()[:12])
 
 
 def classify_words(title: str) -> tuple[str | None, str | None]:
@@ -370,13 +438,26 @@ def main() -> int:
     state = load(STATE, {"seen": []})
     seen = set(state["seen"])
     cfg = load(SOURCES, {"queries": [], "pages": []})
+    # New or edited sources: this run only remembers what they already list,
+    # so old news found by a new source never triggers a notification.
+    global INIT
+    sig = hashlib.sha1(SOURCES.read_bytes()).hexdigest()[:12] if SOURCES.exists() else ""
+    if state.get("sources_sig") != sig:
+        if state.get("sources_sig"):
+            log("sources changed: this run only remembers the existing news")
+        INIT = True
+        state["sources_sig"] = sig
 
     items = []
-    for q in cfg.get("feeds", []):
+    for q in cfg.get("feeds", []) + search_feeds(cfg):
         items += rss(q)
     for p in cfg.get("pages", []):
         items += page_links(p)
     log(f"{len(items)} items")
+    titles = state.setdefault("titles", {})  # normalized title -> day seen
+    today_n = date.today().toordinal()
+    for k in [k for k, v in titles.items() if today_n - v > 30]:
+        del titles[k]
 
     results = data.setdefault("results", [])
     known = {r.get("url") for r in results}
@@ -389,6 +470,10 @@ def main() -> int:
         typ, kind = classify_words(it["title"])
         if not typ or not kind:
             continue
+        nt = norm_title(it["title"])
+        if nt in titles:
+            continue  # the same news already read on another site
+        titles[nt] = today_n
         if not it.get("fresh") and not school_year_ok(it["title"]):
             continue
         if INIT:
@@ -402,6 +487,14 @@ def main() -> int:
                 continue
             text = pdf_text(u) if u else ""
             rows = pprs_by_line(text)
+            if rows:
+                fp = hashlib.sha256("|".join(sorted({p for p, _ in rows})).encode()).hexdigest()[:20]
+                fps = state.setdefault("lists", {})
+                if fp in fps:
+                    log(f"  same list already published: {u}")
+                    known.add(u)
+                    continue
+                fps[fp] = today_n
             g = gemini_check(it["title"], text or it["title"]) if GEMINI else None
             if g is not None and not g.get("relevant", False):
                 log(f"  not relevant: {u}")
@@ -452,8 +545,19 @@ def main() -> int:
     data["results"] = [r for r in results
                        if date.fromisoformat(r["published"]).toordinal() >= limit]
     state["seen"] = sorted(seen)[-5000:]
+    state["lists"] = dict(sorted(state.get("lists", {}).items(), key=lambda kv: kv[1])[-300:])
+    ok = sum(1 for v in STATS.values() if v.get("items"))
+    report = {
+        "run": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
+        "sources_answering": f"{ok}/{len(STATS)}",
+        "items": len(items),
+        "gemini": bool(GEMINI),
+        "sources": STATS,
+    }
+    log(f"sources answering: {ok}/{len(STATS)}")
     if not DRY:
         save(STATE, state)
+        save(REPORT, report)
     if changed:
         data["updated"] = date.today().isoformat()
         if not DRY:
@@ -471,6 +575,10 @@ def announce(data: dict, typ: str, it: dict) -> bool:
         scope_of(it["title"]) or "", "movement_2") if kind == "movement" else "exam"
     for d in data.get("deadlines", []):
         if d.get("kind") == kind and want in d.get("id", "") and d.get("url") != it["url"]:
+            last = d.get("announced")
+            if last and (date.today() - date.fromisoformat(last)).days < 30:
+                return False  # already announced (same news on another site)
+            d["announced"] = date.today().isoformat()
             d["label"] = "صدرت المذكرة: " + datetime.now(timezone.utc).strftime("%d/%m/%Y")
             d["url"] = it["url"]
             d.pop("date", None)

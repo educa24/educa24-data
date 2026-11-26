@@ -1,11 +1,42 @@
 {
- "_note": "feeds = RSS (only items of the last 4 days are read); pages = pages whose links are scanned. Add or remove freely.",
+ "_note": "feeds = RSS read every run (only items of the last 4 days). wordpress_sites x search_words = site searches (site/?s=word&feed=rss2). bing_news = Bing News searches (all Moroccan sites). pages = pages whose links are scanned. Editing this file is safe: the next run only remembers what the new sources already list (no old notifications).",
  "feeds": [
   "https://www.tawjihnet.net/feed/",
   "https://orientation-chabab.com/feed/",
-  "https://www.dreamjob.ma/feed/",
+  "https://www.hespress.com/societe/feed",
+  "https://alyaoum24.com/feed",
+  "https://www.9alami.info/feed/",
   "https://www.alwadifa-maroc.com/feed/",
-  "https://www.9alami.info/feed/"
+  "https://www.dreamjob.ma/feed/"
+ ],
+ "wordpress_sites": [
+  "https://www.tawjihnet.net",
+  "https://orientation-chabab.com",
+  "https://www.hespress.com",
+  "https://alyaoum24.com",
+  "https://www.9alami.info",
+  "https://www.alwadifa-maroc.com",
+  "https://www.dreamjob.ma",
+  "https://barlamane.com"
+ ],
+ "search_words": [
+  "الحركة الانتقالية",
+  "الترقية بالاختيار",
+  "الكفاءة المهنية",
+  "نتائج الحركة",
+  "لوائح الترقية"
+ ],
+ "bing_news": [
+  "نتائج الحركة الانتقالية التعليم",
+  "الحركة الانتقالية الوطنية الأساتذة",
+  "الحركة الانتقالية الجهوية",
+  "الحركة الانتقالية المحلية",
+  "لوائح الترقية بالاختيار التربية الوطنية",
+  "نتائج امتحان الكفاءة المهنية",
+  "نتائج مباراة ولوج مركز تكوين مفتشي التعليم",
+  "نتائج مباراة مركز التوجيه والتخطيط التربوي",
+  "نتائج انتقاء أساتذة اللغة العربية والثقافة المغربية بالخارج",
+  "نتائج مباراة الإدارة التربوية"
  ],
  "pages": [
   "https://www.men.gov.ma/Ar/Pages/Accueil.aspx"
