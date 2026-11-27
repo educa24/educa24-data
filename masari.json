@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "updated": "2026-11-25",
+ "updated": "2026-11-27",
  "calendar": [
   {
    "year": "2026-2027",
@@ -202,8 +202,10 @@
    "id": "exam_reg_2027",
    "title": "امتحان الكفاءة المهنية",
    "sub": "التسجيل في منصة الوزارة",
-   "label": "إشعار عند فتح التسجيل",
-   "kind": "exam"
+   "label": "صدرت المذكرة: 27/11/2026",
+   "kind": "exam",
+   "announced": "2026-11-27",
+   "url": "https://www.facebook.com/Educa24Maroc/posts/pfbid0moYqXxA7yBZznxAUUmduB3JnCYc8xpGkPyeY1NT3wPyrNWuvxLkDKqHeWM3PKgEBl"
   },
   {
    "id": "docs",

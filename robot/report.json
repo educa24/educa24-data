@@ -1,17 +1,18 @@
 {
- "run": "2026-11-27 19:40 UTC",
- "sources_answering": "21/59",
- "items": 84,
+ "run": "2026-11-27 20:26 UTC",
+ "sources_answering": "17/59",
+ "items": 62,
  "gemini": true,
  "sources": {
   "https://www.tawjihnet.net/feed/": {
    "items": 4
   },
   "https://orientation-chabab.com/feed/": {
-   "items": 8
+   "items": 9
   },
   "https://www.hespress.com/societe/feed": {
-   "items": 12
+   "items": null,
+   "error": "HTTP 403"
   },
   "https://alyaoum24.com/feed": {
    "items": 10
@@ -25,8 +26,7 @@
    "error": "HTTP 404"
   },
   "https://www.dreamjob.ma/feed/": {
-   "items": null,
-   "error": "HTTP 403"
+   "items": 0
   },
   "https://www.tawjihnet.net/?s=%D8%A7%D9%84%D8%AD%D8%B1%D9%83%D8%A9%20%D8%A7%D9%84%D8%A7%D9%86%D8%AA%D9%82%D8%A7%D9%84%D9%8A%D8%A9&feed=rss2": {
    "items": 0
@@ -59,19 +59,24 @@
    "items": 0
   },
   "https://www.hespress.com/?s=%D8%A7%D9%84%D8%AD%D8%B1%D9%83%D8%A9%20%D8%A7%D9%84%D8%A7%D9%86%D8%AA%D9%82%D8%A7%D9%84%D9%8A%D8%A9&feed=rss2": {
-   "items": 2
+   "items": null,
+   "error": "HTTP 403"
   },
   "https://www.hespress.com/?s=%D8%A7%D9%84%D8%AA%D8%B1%D9%82%D9%8A%D8%A9%20%D8%A8%D8%A7%D9%84%D8%A7%D8%AE%D8%AA%D9%8A%D8%A7%D8%B1&feed=rss2": {
-   "items": 0
+   "items": null,
+   "error": "skipped (site not answering)"
   },
   "https://www.hespress.com/?s=%D8%A7%D9%84%D9%83%D9%81%D8%A7%D8%A1%D8%A9%20%D8%A7%D9%84%D9%85%D9%87%D9%86%D9%8A%D8%A9&feed=rss2": {
-   "items": 2
+   "items": null,
+   "error": "skipped (site not answering)"
   },
   "https://www.hespress.com/?s=%D9%86%D8%AA%D8%A7%D8%A6%D8%AC%20%D8%A7%D9%84%D8%AD%D8%B1%D9%83%D8%A9&feed=rss2": {
-   "items": 7
+   "items": null,
+   "error": "skipped (site not answering)"
   },
   "https://www.hespress.com/?s=%D9%84%D9%88%D8%A7%D8%A6%D8%AD%20%D8%A7%D9%84%D8%AA%D8%B1%D9%82%D9%8A%D8%A9&feed=rss2": {
-   "items": 0
+   "items": null,
+   "error": "skipped (site not answering)"
   },
   "https://alyaoum24.com/?s=%D8%A7%D9%84%D8%AD%D8%B1%D9%83%D8%A9%20%D8%A7%D9%84%D8%A7%D9%86%D8%AA%D9%82%D8%A7%D9%84%D9%8A%D8%A9&feed=rss2": {
    "items": 5
@@ -124,24 +129,19 @@
    "items": 0
   },
   "https://www.dreamjob.ma/?s=%D8%A7%D9%84%D8%AD%D8%B1%D9%83%D8%A9%20%D8%A7%D9%84%D8%A7%D9%86%D8%AA%D9%82%D8%A7%D9%84%D9%8A%D8%A9&feed=rss2": {
-   "items": null,
-   "error": "HTTP 403"
+   "items": 0
   },
   "https://www.dreamjob.ma/?s=%D8%A7%D9%84%D8%AA%D8%B1%D9%82%D9%8A%D8%A9%20%D8%A8%D8%A7%D9%84%D8%A7%D8%AE%D8%AA%D9%8A%D8%A7%D8%B1&feed=rss2": {
-   "items": null,
-   "error": "skipped (site not answering)"
+   "items": 0
   },
   "https://www.dreamjob.ma/?s=%D8%A7%D9%84%D9%83%D9%81%D8%A7%D8%A1%D8%A9%20%D8%A7%D9%84%D9%85%D9%87%D9%86%D9%8A%D8%A9&feed=rss2": {
-   "items": null,
-   "error": "skipped (site not answering)"
+   "items": 0
   },
   "https://www.dreamjob.ma/?s=%D9%86%D8%AA%D8%A7%D8%A6%D8%AC%20%D8%A7%D9%84%D8%AD%D8%B1%D9%83%D8%A9&feed=rss2": {
-   "items": null,
-   "error": "skipped (site not answering)"
+   "items": 0
   },
   "https://www.dreamjob.ma/?s=%D9%84%D9%88%D8%A7%D8%A6%D8%AD%20%D8%A7%D9%84%D8%AA%D8%B1%D9%82%D9%8A%D8%A9&feed=rss2": {
-   "items": null,
-   "error": "skipped (site not answering)"
+   "items": 0
   },
   "https://barlamane.com/?s=%D8%A7%D9%84%D8%AD%D8%B1%D9%83%D8%A9%20%D8%A7%D9%84%D8%A7%D9%86%D8%AA%D9%82%D8%A7%D9%84%D9%8A%D8%A9&feed=rss2": {
    "items": 0
