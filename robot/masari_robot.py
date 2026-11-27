@@ -466,6 +466,21 @@ def main() -> int:
     for p in cfg.get("pages", []):
         items += page_links(p)
     log(f"{len(items)} items")
+    # Manual announces: robot/manual.json, filled by hand on GitHub when the
+    # news is only on Facebook or a site the robot cannot read.
+    manual = load(ROOT / "robot" / "manual.json", []) if (ROOT / "robot" / "manual.json").exists() else []
+    for m in manual if isinstance(manual, list) else []:
+        t, u, typ = m.get("title", ""), m.get("url", ""), m.get("type", "professional_exam")
+        if not t or not u or "manual:" + u in seen:
+            continue
+        seen.add("manual:" + u)
+        log(f"* manual {typ}: {t}")
+        if not INIT:
+            changed_manual = announce(data, typ, {"title": t, "url": u})
+            if changed_manual:
+                data["updated"] = date.today().isoformat()
+                if not DRY:
+                    save(DATA, data)
     titles = state.setdefault("titles", {})  # normalized title -> day seen
     today_n = date.today().toordinal()
     for k in [k for k, v in titles.items() if today_n - v > 30]:
