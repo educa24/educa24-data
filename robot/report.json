@@ -1,7 +1,7 @@
 {
- "run": "2026-11-27 13:04 UTC",
+ "run": "2026-11-27 14:51 UTC",
  "sources_answering": "21/58",
- "items": 83,
+ "items": 82,
  "gemini": true,
  "sources": {
   "https://www.tawjihnet.net/feed/": {
@@ -171,7 +171,7 @@
    "items": 5
   },
   "https://www.bing.com/news/search?format=rss&setlang=ar&cc=MA&q=%D9%84%D9%88%D8%A7%D8%A6%D8%AD%20%D8%A7%D9%84%D8%AA%D8%B1%D9%82%D9%8A%D8%A9%20%D8%A8%D8%A7%D9%84%D8%A7%D8%AE%D8%AA%D9%8A%D8%A7%D8%B1%20%D8%A7%D9%84%D8%AA%D8%B1%D8%A8%D9%8A%D8%A9%20%D8%A7%D9%84%D9%88%D8%B7%D9%86%D9%8A%D8%A9": {
-   "items": 5
+   "items": 4
   },
   "https://www.bing.com/news/search?format=rss&setlang=ar&cc=MA&q=%D9%86%D8%AA%D8%A7%D8%A6%D8%AC%20%D8%A7%D9%85%D8%AA%D8%AD%D8%A7%D9%86%20%D8%A7%D9%84%D9%83%D9%81%D8%A7%D8%A1%D8%A9%20%D8%A7%D9%84%D9%85%D9%87%D9%86%D9%8A%D8%A9": {
    "items": 1
