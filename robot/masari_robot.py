@@ -80,6 +80,14 @@ RESULT_WORDS = ["نتائج", "لوائح", "لائحة", "المستفيدين"
 ANNOUNCE_WORDS = ["فتح باب الترشيح", "بدء التسجيل", "انطلاق عملية", "المذكرة الإطار",
                   "مذكرة وزارية", "المذكرة المنظمة", "آخر أجل", "تمديد", "إجراء الحركة",
                   "المشاركة في الحركة", "التسجيل في", "الترشح"]
+# Professional exam: the memo is often titled only «مذكرة … تنظيم امتحانات …»
+EXAM_ANNOUNCE_WORDS = ["مذكرة", "تنظيم", "إجراء", "موعد", "تاريخ", "مواعيد", "بلاغ",
+                  "فتح التسجيل", "الإعلان عن", "منصة", "دورة"]
+# News that talks about the exam/movement but is not the memo yet.
+NOT_YET_WORDS = ["مرتقب", "تأجيل", "تؤجل", "يؤجل", "جدل", "يطالب", "تطالب", "احتجاج"]
+
+
+EDUCA24_FEED = "https://www.educa24.ma/feeds/posts/default?alt=rss&max-results=25"
 
 
 # ── helpers ─────────────────────────────────────────────────────────────────
@@ -232,7 +240,8 @@ def classify_words(title: str) -> tuple[str | None, str | None]:
         return None, None
     if any(w in t for w in RESULT_WORDS):
         return typ, "result"
-    if any(w in t for w in ANNOUNCE_WORDS):
+    words = ANNOUNCE_WORDS + (EXAM_ANNOUNCE_WORDS if typ == "professional_exam" else [])
+    if any(w in t for w in words) and not any(w in t for w in NOT_YET_WORDS):
         return typ, "announce"
     return typ, None
 
@@ -451,6 +460,9 @@ def main() -> int:
     items = []
     for q in cfg.get("feeds", []) + search_feeds(cfg):
         items += rss(q)
+    # Educa24's own blog often posts the memo first. Kept here (not in
+    # sources.json) so adding it does not restart the robot's memory.
+    items += rss(EDUCA24_FEED, days=1)
     for p in cfg.get("pages", []):
         items += page_links(p)
     log(f"{len(items)} items")
@@ -464,10 +476,12 @@ def main() -> int:
     changed = False
     for it in items:
         key = it["url"]
-        if key in seen:
+        typ, kind = classify_words(it["title"])
+        # An announce already read once is checked again: an older robot may
+        # have skipped it (title words), and announce() never notifies twice.
+        if key in seen and kind != "announce":
             continue
         seen.add(key)
-        typ, kind = classify_words(it["title"])
         if not typ or not kind:
             continue
         nt = norm_title(it["title"])
