@@ -73,6 +73,10 @@ TYPES = {
     "inspection": ["مركز تكوين مفتشي التعليم", "سلك المفتشين", "التفتيش التربوي"],
     "guidance": ["مركز التوجيه والتخطيط", "التوجيه والتخطيط التربوي"],
     "administration": ["الإدارة التربوية", "أطر الإدارة التربوية", "المناصب الإدارية"],
+    # Entry contests for future teachers (students follow the app too).
+    "crmef": ["المراكز الجهوية لمهن التربية والتكوين", "أطر الأكاديميات", "أطر التدريس",
+              "مباراة التعليم", "مباريات التعليم", "توظيف الأساتذة", "مباراة ولوج مهن التدريس",
+              "الإجازة في التربية", "سلك تأهيل أطر هيئة التدريس"],
 }
 TYPE_IDS = {"guidance": "guidance_planning"}  # ids used by the app
 RESULT_WORDS = ["نتائج", "لوائح", "لائحة", "المستفيدين", "المستفيدات", "الناجحين",
@@ -81,12 +85,31 @@ ANNOUNCE_WORDS = ["فتح باب الترشيح", "بدء التسجيل", "ان
                   "مذكرة وزارية", "المذكرة المنظمة", "آخر أجل", "تمديد", "إجراء الحركة",
                   "المشاركة في الحركة", "التسجيل في", "الترشح"]
 # Professional exam: the memo is often titled only «مذكرة … تنظيم امتحانات …»
-EXAM_ANNOUNCE_WORDS = ["مذكرة", "تنظيم", "إجراء", "موعد", "تاريخ", "مواعيد", "بلاغ",
+EXAM_ANNOUNCE_WORDS = ["مذكرة", "إعلان عن مباراة", "تنظيم مباراة", "إجراء مباراة",
+                       "الانتقاء الأولي", "الاختبارات الكتابية", "استدعاء", "الاستدعاءات", "تنظيم", "إجراء", "موعد", "تاريخ", "مواعيد", "بلاغ",
                   "فتح التسجيل", "الإعلان عن", "منصة", "دورة"]
 # News that talks about the exam/movement but is not the memo yet.
 NOT_YET_WORDS = ["مرتقب", "تأجيل", "تؤجل", "يؤجل", "جدل", "يطالب", "تطالب", "احتجاج"]
 
 
+RESULT_QUERIES = [  # Bing News, results + announces
+    "نتائج مباراة التعليم أطر الأكاديميات", "نتائج الانتقاء الأولي مباراة التعليم",
+    "النتائج النهائية مباراة أطر الأكاديميات", "نتائج الامتحان المهني التعليم",
+    "لوائح الترقية بالاختيار وزارة التربية الوطنية", "نتائج مباراة الإدارة التربوية",
+]
+MEN_QUERIES = [  # Bing web search inside the ministry site (blocks GitHub directly)
+    "site:men.gov.ma نتائج", "site:men.gov.ma مذكرة", "site:men.gov.ma مباراة",
+    "site:men.gov.ma الحركة الانتقالية", "site:men.gov.ma امتحانات الكفاءة المهنية",
+]
+ANNOUNCE_QUERIES = [
+    "مباراة التعليم أطر الأكاديميات التسجيل", "مباراة ولوج المراكز الجهوية لمهن التربية والتكوين",
+    "مذكرة مباراة الإدارة التربوية", "مباراة ولوج مركز تكوين مفتشي التعليم",
+    "مباراة مركز التوجيه والتخطيط التربوي", "مذكرة الترقية بالاختيار التعليم",
+    "انتقاء أساتذة اللغة العربية والثقافة المغربية بالخارج",
+"مذكرة امتحانات الكفاءة المهنية", "التسجيل في امتحانات الكفاءة المهنية",
+                    "الامتحان المهني التعليم مذكرة", "امتحانات الكفاءة المهنية منصة التسجيل",
+                    "مذكرة الحركة الانتقالية التعليم", "فتح باب المشاركة في الحركة الانتقالية",
+                    "الحركة الانتقالية الجهوية مذكرة", "الحركة الانتقالية المحلية مذكرة"]
 EDUCA24_FEED = "https://www.educa24.ma/feeds/posts/default?alt=rss&max-results=25"
 
 
@@ -108,6 +131,7 @@ def save(p: Path, obj):
 
 
 LAST_ERROR: dict[str, str] = {}
+ANNOUNCED: dict[str, str] = {}  # type -> day of the last announce push (state.json)
 DEAD: dict[str, int] = {}  # failures per site during this run
 
 
@@ -240,7 +264,7 @@ def classify_words(title: str) -> tuple[str | None, str | None]:
         return None, None
     if any(w in t for w in RESULT_WORDS):
         return typ, "result"
-    words = ANNOUNCE_WORDS + (EXAM_ANNOUNCE_WORDS if typ == "professional_exam" else [])
+    words = ANNOUNCE_WORDS + (EXAM_ANNOUNCE_WORDS if typ != "movement" else [])
     if any(w in t for w in words) and not any(w in t for w in NOT_YET_WORDS):
         return typ, "announce"
     return typ, None
@@ -296,8 +320,8 @@ def gemini_check(title: str, text: str) -> dict | None:
     return gemini_json(
         "أنت تساعد تطبيقاً للأساتذة في المغرب. هذا عنوان ومقتطف من وثيقة.\n"
         f"العنوان: {title}\nالمقتطف:\n{text[:3500]}\n\n"
-        "أجب بـ JSON فقط: {\"relevant\": true/false (هل هي لائحة نتائج أو مستفيدين رسمية لموظفي التربية الوطنية لهذه السنة)، "
-        "\"type\": واحد من promotion_lists, professional_exam, movement, abroad, inspection, guidance_planning, administration, "
+        "أجب بـ JSON فقط: {\"relevant\": true/false (هل هي لائحة نتائج أو مستفيدين رسمية لموظفي التربية الوطنية، أو لائحة نتائج مباراة ولوج مهن التدريس وأطر الأكاديميات، لهذه السنة)، "
+        "\"type\": واحد من promotion_lists, professional_exam, movement, abroad, inspection, guidance_planning, administration, crmef, "
         "\"scope\": national أو regional أو local أو null، \"academy\": رقم الأكاديمية 1-12 حسب الترتيب "
         + "، ".join(ACADEMIES) + " أو 0 إذا كانت وطنية، \"title\": عنوان عربي قصير وواضح للائحة}")
 
@@ -403,7 +427,33 @@ def destinations(rows: list[tuple[str, str]]) -> dict[str, str]:
 
 # ── 4. Firebase notification ────────────────────────────────────────────────
 
-def fcm_send(topic: str, title: str, body: str) -> None:
+PUSHES: list[tuple] = []  # sent at the end, once masari.json is online
+
+
+def fcm_send(topic: str, title: str, body: str, screen: str = "masari-results") -> None:
+    PUSHES.append((topic, title, body, screen))
+
+
+def publish_then_push() -> None:
+    """Pushes only after masari.json is on GitHub (and the raw cache of 5 min
+    has expired), so a teacher who taps the notification sees the new data."""
+    if not PUSHES:
+        return
+    if not DRY and os.environ.get("GITHUB_ACTIONS"):
+        import subprocess
+        sh = lambda *c: subprocess.run(list(c), cwd=ROOT, check=False)
+        sh("git", "config", "user.name", "educa24-robot")
+        sh("git", "config", "user.email", "robot@users.noreply.github.com")
+        sh("git", "add", "masari.json", "robot/state.json", "robot/report.json")
+        sh("git", "commit", "-m", "robot: " + datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M"))
+        if sh("git", "push").returncode == 0:
+            log("  data online, waiting for the cache before the pushes")
+            time.sleep(330)
+    for p in PUSHES:
+        _fcm_send_now(*p)
+
+
+def _fcm_send_now(topic: str, title: str, body: str, screen: str) -> None:
     raw = os.environ.get("FCM_SERVICE_ACCOUNT", "").strip()
     if not raw or DRY:
         log(f"  (no push) {topic}: {title}")
@@ -417,7 +467,7 @@ def fcm_send(topic: str, title: str, body: str) -> None:
     msg = {"message": {
         "topic": topic,
         "notification": {"title": title, "body": body},
-        "data": {"screen": "masari-results", "masari": "1"},
+        "data": {"screen": screen, "masari": "1"},
         "android": {"priority": "high", "notification": {"channel_id": "educa24_masari"}},
     }}
     r = requests.post(
@@ -434,6 +484,7 @@ PUSH_TEXT = {
     "inspection": "صدرت نتائج مباراة التفتيش",
     "guidance_planning": "صدرت نتائج مباراة التوجيه والتخطيط",
     "administration": "صدرت نتائج الإدارة التربوية",
+    "crmef": "صدرت نتائج مباراة التعليم (أطر الأكاديميات)",
 }
 
 
@@ -446,6 +497,15 @@ def main() -> int:
         return 1
     state = load(STATE, {"seen": []})
     seen = set(state["seen"])
+    ANNOUNCED.update(state.get("announced", {}))
+    pin_announced(data)
+    for d in data.get("deadlines", []):
+        if d.get("announced") and not d.get("note") and d.get("kind") in ANNOUNCE_SUB:
+            d["sub"] = ANNOUNCE_SUB[d["kind"]]
+            d["note"] = "اضغط «المذكرة الرسمية» لقراءة الشروط والآجال."
+            data["updated"] = date.today().isoformat()
+            if not DRY:
+                save(DATA, data)
     cfg = load(SOURCES, {"queries": [], "pages": []})
     # New or edited sources: this run only remembers what they already list,
     # so old news found by a new source never triggers a notification.
@@ -463,6 +523,30 @@ def main() -> int:
     # Educa24's own blog often posts the memo first. Kept here (not in
     # sources.json) so adding it does not restart the robot's memory.
     items += rss(EDUCA24_FEED, days=1)
+    # Google News + Bing News searches for the memos themselves (all Moroccan
+    # sites). Used ONLY for announces, so they can never trigger a results push.
+    code_items = []
+    for q in ANNOUNCE_QUERIES:
+        qq = urllib.parse.quote(q)
+        for u in ("https://news.google.com/rss/search?hl=ar&gl=MA&ceid=MA:ar&q=" + qq,
+                  "https://www.bing.com/news/search?format=rss&setlang=ar&cc=MA&q=" + qq):
+            code_items += [dict(x, announce_only=True) for x in rss(u, days=2)]
+    for q in RESULT_QUERIES:
+        code_items += rss("https://www.bing.com/news/search?format=rss&setlang=ar&cc=MA&q="
+                          + urllib.parse.quote(q), days=3)
+    for q in MEN_QUERIES:
+        code_items += rss("https://www.bing.com/search?format=rss&setlang=ar&cc=MA&q="
+                          + urllib.parse.quote(q), days=7)
+    # Searches written in the code: when they change, this run only remembers
+    # what they find (old news never triggers a notification).
+    csig = hashlib.sha1(json.dumps([ANNOUNCE_QUERIES, RESULT_QUERIES, MEN_QUERIES,
+                                    sorted(TYPES)], ensure_ascii=False).encode()).hexdigest()[:12]
+    if state.get("code_sig") != csig:
+        log("code searches changed: this run only remembers what they find")
+        for it in code_items:
+            it["learn_only"] = True
+        state["code_sig"] = csig
+    items += code_items
     for p in cfg.get("pages", []):
         items += page_links(p)
     log(f"{len(items)} items")
@@ -496,6 +580,8 @@ def main() -> int:
         # have skipped it (title words), and announce() never notifies twice.
         if key in seen and kind != "announce":
             continue
+        if it.get("announce_only") and kind != "announce":
+            continue  # news searches: memos only, never results
         seen.add(key)
         if not typ or not kind:
             continue
@@ -505,7 +591,7 @@ def main() -> int:
         titles[nt] = today_n
         if not it.get("fresh") and not school_year_ok(it["title"]):
             continue
-        if INIT:
+        if INIT or it.get("learn_only"):
             continue  # first run: only remember what already exists
         log(f"* {typ}/{kind}: {it['title']}")
         if kind == "announce":
@@ -567,6 +653,7 @@ def main() -> int:
             topic = f"masari_{typ2}" + (f"_{acad + 1}" if acad >= 0 else "")
             where = f" ({ACADEMIES[acad]})" if acad >= 0 else ""
             fcm_send(topic, PUSH_TEXT[typ2] + where,
+                     "افتح «نتائجي» لترى اللائحة." if typ2 == "crmef" else
                      "افتح «نتائجي»: هاتفك يبحث عن رقم تأجيرك في اللائحة.")
 
     # keep the file small: results of the last 400 days only
@@ -574,6 +661,7 @@ def main() -> int:
     data["results"] = [r for r in results
                        if date.fromisoformat(r["published"]).toordinal() >= limit]
     state["seen"] = sorted(seen)[-5000:]
+    state["announced"] = ANNOUNCED
     state["lists"] = dict(sorted(state.get("lists", {}).items(), key=lambda kv: kv[1])[-300:])
     ok = sum(1 for v in STATS.values() if v.get("items"))
     report = {
@@ -592,13 +680,43 @@ def main() -> int:
         if not DRY:
             save(DATA, data)
         log("masari.json updated")
+    publish_then_push()
     return 0
+
+
+ANNOUNCE_SUB = {
+    "exam": "صدرت المذكرة: سجّل الآن في منصة الوزارة قبل آخر أجل",
+    "movement": "صدرت المذكرة: قدّم طلب المشاركة قبل آخر أجل",
+}
+
+
+def pin_announced(data: dict) -> None:
+    """A memo published in the last 30 days goes to the top of «مواعيدي
+    الإدارية» (newest first): it is what the teacher must do now."""
+    dl = data.get("deadlines", [])
+    def recent(d):
+        a = d.get("announced")
+        return bool(a) and (date.today() - date.fromisoformat(a)).days < 30
+    new = sorted([d for d in dl if recent(d)], key=lambda d: d["announced"], reverse=True) + \
+        [d for d in dl if not recent(d)]
+    if [d.get("id") for d in new] != [d.get("id") for d in dl]:
+        data["deadlines"] = new
+        data["updated"] = date.today().isoformat()
+        if not DRY:
+            save(DATA, data)
 
 
 def announce(data: dict, typ: str, it: dict) -> bool:
     """Registration opened (movement / exam): mark the deadline and notify."""
     kind = {"movement": "movement", "professional_exam": "exam"}.get(typ)
     if not kind:
+        last = ANNOUNCED.get(typ)
+        if last and (date.today() - date.fromisoformat(last)).days < 30:
+            return False
+        ANNOUNCED[typ] = date.today().isoformat()
+        fcm_send(f"masari_{typ}", it["title"][:90],
+                 "خبر جديد يخص مباراة تتابعها في «مساري المهني». تأكد من التفاصيل على موقع الوزارة.",
+                 "masari")
         return False
     want = {"regional": "movement_regional", "local": "movement_local"}.get(
         scope_of(it["title"]) or "", "movement_2") if kind == "movement" else "exam"
@@ -611,8 +729,11 @@ def announce(data: dict, typ: str, it: dict) -> bool:
             d["label"] = "صدرت المذكرة: " + datetime.now(timezone.utc).strftime("%d/%m/%Y")
             d["url"] = it["url"]
             d.pop("date", None)
+            d["sub"] = ANNOUNCE_SUB.get(kind, d.get("sub", ""))
+            d["note"] = "اضغط «المذكرة الرسمية» لقراءة الشروط والآجال."
+            pin_announced(data)
             fcm_send(f"masari_{typ}", it["title"][:90],
-                     "افتح «مواعيدي الإدارية» في مساري المهني لترى التفاصيل والرابط.")
+                     "افتح «مواعيدي الإدارية» في مساري المهني لترى التفاصيل والرابط.", "masari")
             return True
     return False
 
