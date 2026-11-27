@@ -147,6 +147,16 @@
  ],
  "deadlines": [
   {
+   "id": "exam_reg_2027",
+   "title": "امتحان الكفاءة المهنية",
+   "sub": "صدرت المذكرة: سجّل الآن في منصة الوزارة قبل آخر أجل",
+   "label": "صدرت المذكرة: 27/11/2026",
+   "kind": "exam",
+   "announced": "2026-11-27",
+   "url": "https://www.facebook.com/Educa24Maroc/posts/pfbid0moYqXxA7yBZznxAUUmduB3JnCYc8xpGkPyeY1NT3wPyrNWuvxLkDKqHeWM3PKgEBl",
+   "note": "اضغط «المذكرة الرسمية» لقراءة الشروط والآجال."
+  },
+  {
    "id": "massar_s1_2027",
    "title": "آخر أجل لإدخال نقط المراقبة المستمرة",
    "sub": "الأسدس الأول في مسار",
@@ -197,15 +207,6 @@
    "sub": "صدور النتائج برسم 2026",
    "label": "إشعار عند الصدور + رابط اللوائح",
    "kind": "promotion"
-  },
-  {
-   "id": "exam_reg_2027",
-   "title": "امتحان الكفاءة المهنية",
-   "sub": "التسجيل في منصة الوزارة",
-   "label": "صدرت المذكرة: 27/11/2026",
-   "kind": "exam",
-   "announced": "2026-11-27",
-   "url": "https://www.facebook.com/Educa24Maroc/posts/pfbid0moYqXxA7yBZznxAUUmduB3JnCYc8xpGkPyeY1NT3wPyrNWuvxLkDKqHeWM3PKgEBl"
   },
   {
    "id": "docs",
