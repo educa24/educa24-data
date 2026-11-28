@@ -1,11 +1,11 @@
 {
- "run": "2026-11-28 10:49 UTC",
- "sources_answering": "48/99",
- "items": 322,
+ "run": "2026-11-28 12:53 UTC",
+ "sources_answering": "52/99",
+ "items": 344,
  "gemini": true,
  "sources": {
   "https://www.tawjihnet.net/feed/": {
-   "items": 4
+   "items": 5
   },
   "https://orientation-chabab.com/feed/": {
    "items": 9
@@ -165,10 +165,10 @@
    "items": 2
   },
   "https://www.bing.com/news/search?format=rss&setlang=ar&cc=MA&q=%D8%A7%D9%84%D8%AD%D8%B1%D9%83%D8%A9%20%D8%A7%D9%84%D8%A7%D9%86%D8%AA%D9%82%D8%A7%D9%84%D9%8A%D8%A9%20%D8%A7%D9%84%D8%AC%D9%87%D9%88%D9%8A%D8%A9": {
-   "items": 3
+   "items": 2
   },
   "https://www.bing.com/news/search?format=rss&setlang=ar&cc=MA&q=%D8%A7%D9%84%D8%AD%D8%B1%D9%83%D8%A9%20%D8%A7%D9%84%D8%A7%D9%86%D8%AA%D9%82%D8%A7%D9%84%D9%8A%D8%A9%20%D8%A7%D9%84%D9%85%D8%AD%D9%84%D9%8A%D8%A9": {
-   "items": 2
+   "items": 4
   },
   "https://www.bing.com/news/search?format=rss&setlang=ar&cc=MA&q=%D9%84%D9%88%D8%A7%D8%A6%D8%AD%20%D8%A7%D9%84%D8%AA%D8%B1%D9%82%D9%8A%D8%A9%20%D8%A8%D8%A7%D9%84%D8%A7%D8%AE%D8%AA%D9%8A%D8%A7%D8%B1%20%D8%A7%D9%84%D8%AA%D8%B1%D8%A8%D9%8A%D8%A9%20%D8%A7%D9%84%D9%88%D8%B7%D9%86%D9%8A%D8%A9": {
    "items": 4
@@ -177,7 +177,7 @@
    "items": 2
   },
   "https://www.bing.com/news/search?format=rss&setlang=ar&cc=MA&q=%D9%86%D8%AA%D8%A7%D8%A6%D8%AC%20%D9%85%D8%A8%D8%A7%D8%B1%D8%A7%D8%A9%20%D9%88%D9%84%D9%88%D8%AC%20%D9%85%D8%B1%D9%83%D8%B2%20%D8%AA%D9%83%D9%88%D9%8A%D9%86%20%D9%85%D9%81%D8%AA%D8%B4%D9%8A%20%D8%A7%D9%84%D8%AA%D8%B9%D9%84%D9%8A%D9%85": {
-   "items": 2
+   "items": 1
   },
   "https://www.bing.com/news/search?format=rss&setlang=ar&cc=MA&q=%D9%86%D8%AA%D8%A7%D8%A6%D8%AC%20%D9%85%D8%A8%D8%A7%D8%B1%D8%A7%D8%A9%20%D9%85%D8%B1%D9%83%D8%B2%20%D8%A7%D9%84%D8%AA%D9%88%D8%AC%D9%8A%D9%87%20%D9%88%D8%A7%D9%84%D8%AA%D8%AE%D8%B7%D9%8A%D8%B7%20%D8%A7%D9%84%D8%AA%D8%B1%D8%A8%D9%88%D9%8A": {
    "items": 0
@@ -192,16 +192,16 @@
    "items": 16
   },
   "https://news.google.com/rss/search?hl=ar&gl=MA&ceid=MA:ar&q=%D9%85%D8%A8%D8%A7%D8%B1%D8%A7%D8%A9%20%D8%A7%D9%84%D8%AA%D8%B9%D9%84%D9%8A%D9%85%20%D8%A3%D8%B7%D8%B1%20%D8%A7%D9%84%D8%A3%D9%83%D8%A7%D8%AF%D9%8A%D9%85%D9%8A%D8%A7%D8%AA%20%D8%A7%D9%84%D8%AA%D8%B3%D8%AC%D9%8A%D9%84": {
-   "items": 18
+   "items": 11
   },
   "https://www.bing.com/news/search?format=rss&setlang=ar&cc=MA&q=%D9%85%D8%A8%D8%A7%D8%B1%D8%A7%D8%A9%20%D8%A7%D9%84%D8%AA%D8%B9%D9%84%D9%8A%D9%85%20%D8%A3%D8%B7%D8%B1%20%D8%A7%D9%84%D8%A3%D9%83%D8%A7%D8%AF%D9%8A%D9%85%D9%8A%D8%A7%D8%AA%20%D8%A7%D9%84%D8%AA%D8%B3%D8%AC%D9%8A%D9%84": {
    "items": 3
   },
   "https://news.google.com/rss/search?hl=ar&gl=MA&ceid=MA:ar&q=%D9%85%D8%A8%D8%A7%D8%B1%D8%A7%D8%A9%20%D9%88%D9%84%D9%88%D8%AC%20%D8%A7%D9%84%D9%85%D8%B1%D8%A7%D9%83%D8%B2%20%D8%A7%D9%84%D8%AC%D9%87%D9%88%D9%8A%D8%A9%20%D9%84%D9%85%D9%87%D9%86%20%D8%A7%D9%84%D8%AA%D8%B1%D8%A8%D9%8A%D8%A9%20%D9%88%D8%A7%D9%84%D8%AA%D9%83%D9%88%D9%8A%D9%86": {
-   "items": 35
+   "items": 47
   },
   "https://www.bing.com/news/search?format=rss&setlang=ar&cc=MA&q=%D9%85%D8%A8%D8%A7%D8%B1%D8%A7%D8%A9%20%D9%88%D9%84%D9%88%D8%AC%20%D8%A7%D9%84%D9%85%D8%B1%D8%A7%D9%83%D8%B2%20%D8%A7%D9%84%D8%AC%D9%87%D9%88%D9%8A%D8%A9%20%D9%84%D9%85%D9%87%D9%86%20%D8%A7%D9%84%D8%AA%D8%B1%D8%A8%D9%8A%D8%A9%20%D9%88%D8%A7%D9%84%D8%AA%D9%83%D9%88%D9%8A%D9%86": {
-   "items": 2
+   "items": 1
   },
   "https://news.google.com/rss/search?hl=ar&gl=MA&ceid=MA:ar&q=%D9%85%D8%B0%D9%83%D8%B1%D8%A9%20%D9%85%D8%A8%D8%A7%D8%B1%D8%A7%D8%A9%20%D8%A7%D9%84%D8%A5%D8%AF%D8%A7%D8%B1%D8%A9%20%D8%A7%D9%84%D8%AA%D8%B1%D8%A8%D9%88%D9%8A%D8%A9": {
    "items": 16
@@ -210,19 +210,19 @@
    "items": 2
   },
   "https://news.google.com/rss/search?hl=ar&gl=MA&ceid=MA:ar&q=%D9%85%D8%A8%D8%A7%D8%B1%D8%A7%D8%A9%20%D9%88%D9%84%D9%88%D8%AC%20%D9%85%D8%B1%D9%83%D8%B2%20%D8%AA%D9%83%D9%88%D9%8A%D9%86%20%D9%85%D9%81%D8%AA%D8%B4%D9%8A%20%D8%A7%D9%84%D8%AA%D8%B9%D9%84%D9%8A%D9%85": {
-   "items": 10
+   "items": 16
   },
   "https://www.bing.com/news/search?format=rss&setlang=ar&cc=MA&q=%D9%85%D8%A8%D8%A7%D8%B1%D8%A7%D8%A9%20%D9%88%D9%84%D9%88%D8%AC%20%D9%85%D8%B1%D9%83%D8%B2%20%D8%AA%D9%83%D9%88%D9%8A%D9%86%20%D9%85%D9%81%D8%AA%D8%B4%D9%8A%20%D8%A7%D9%84%D8%AA%D8%B9%D9%84%D9%8A%D9%85": {
    "items": 1
   },
   "https://news.google.com/rss/search?hl=ar&gl=MA&ceid=MA:ar&q=%D9%85%D8%A8%D8%A7%D8%B1%D8%A7%D8%A9%20%D9%85%D8%B1%D9%83%D8%B2%20%D8%A7%D9%84%D8%AA%D9%88%D8%AC%D9%8A%D9%87%20%D9%88%D8%A7%D9%84%D8%AA%D8%AE%D8%B7%D9%8A%D8%B7%20%D8%A7%D9%84%D8%AA%D8%B1%D8%A8%D9%88%D9%8A": {
-   "items": 13
+   "items": 1
   },
   "https://www.bing.com/news/search?format=rss&setlang=ar&cc=MA&q=%D9%85%D8%A8%D8%A7%D8%B1%D8%A7%D8%A9%20%D9%85%D8%B1%D9%83%D8%B2%20%D8%A7%D9%84%D8%AA%D9%88%D8%AC%D9%8A%D9%87%20%D9%88%D8%A7%D9%84%D8%AA%D8%AE%D8%B7%D9%8A%D8%B7%20%D8%A7%D9%84%D8%AA%D8%B1%D8%A8%D9%88%D9%8A": {
    "items": 0
   },
   "https://news.google.com/rss/search?hl=ar&gl=MA&ceid=MA:ar&q=%D9%85%D8%B0%D9%83%D8%B1%D8%A9%20%D8%A7%D9%84%D8%AA%D8%B1%D9%82%D9%8A%D8%A9%20%D8%A8%D8%A7%D9%84%D8%A7%D8%AE%D8%AA%D9%8A%D8%A7%D8%B1%20%D8%A7%D9%84%D8%AA%D8%B9%D9%84%D9%8A%D9%85": {
-   "items": 16
+   "items": 15
   },
   "https://www.bing.com/news/search?format=rss&setlang=ar&cc=MA&q=%D9%85%D8%B0%D9%83%D8%B1%D8%A9%20%D8%A7%D9%84%D8%AA%D8%B1%D9%82%D9%8A%D8%A9%20%D8%A8%D8%A7%D9%84%D8%A7%D8%AE%D8%AA%D9%8A%D8%A7%D8%B1%20%D8%A7%D9%84%D8%AA%D8%B9%D9%84%D9%8A%D9%85": {
    "items": 2
@@ -234,8 +234,7 @@
    "items": 0
   },
   "https://news.google.com/rss/search?hl=ar&gl=MA&ceid=MA:ar&q=%D9%85%D8%B0%D9%83%D8%B1%D8%A9%20%D8%A7%D9%85%D8%AA%D8%AD%D8%A7%D9%86%D8%A7%D8%AA%20%D8%A7%D9%84%D9%83%D9%81%D8%A7%D8%A1%D8%A9%20%D8%A7%D9%84%D9%85%D9%87%D9%86%D9%8A%D8%A9": {
-   "items": null,
-   "error": "HTTP 429"
+   "items": 13
   },
   "https://www.bing.com/news/search?format=rss&setlang=ar&cc=MA&q=%D9%85%D8%B0%D9%83%D8%B1%D8%A9%20%D8%A7%D9%85%D8%AA%D8%AD%D8%A7%D9%86%D8%A7%D8%AA%20%D8%A7%D9%84%D9%83%D9%81%D8%A7%D8%A1%D8%A9%20%D8%A7%D9%84%D9%85%D9%87%D9%86%D9%8A%D8%A9": {
    "items": 0
@@ -247,13 +246,13 @@
    "items": 2
   },
   "https://news.google.com/rss/search?hl=ar&gl=MA&ceid=MA:ar&q=%D8%A7%D9%84%D8%A7%D9%85%D8%AA%D8%AD%D8%A7%D9%86%20%D8%A7%D9%84%D9%85%D9%87%D9%86%D9%8A%20%D8%A7%D9%84%D8%AA%D8%B9%D9%84%D9%8A%D9%85%20%D9%85%D8%B0%D9%83%D8%B1%D8%A9": {
-   "items": 16
+   "items": 9
   },
   "https://www.bing.com/news/search?format=rss&setlang=ar&cc=MA&q=%D8%A7%D9%84%D8%A7%D9%85%D8%AA%D8%AD%D8%A7%D9%86%20%D8%A7%D9%84%D9%85%D9%87%D9%86%D9%8A%20%D8%A7%D9%84%D8%AA%D8%B9%D9%84%D9%8A%D9%85%20%D9%85%D8%B0%D9%83%D8%B1%D8%A9": {
-   "items": 2
+   "items": 1
   },
   "https://news.google.com/rss/search?hl=ar&gl=MA&ceid=MA:ar&q=%D8%A7%D9%85%D8%AA%D8%AD%D8%A7%D9%86%D8%A7%D8%AA%20%D8%A7%D9%84%D9%83%D9%81%D8%A7%D8%A1%D8%A9%20%D8%A7%D9%84%D9%85%D9%87%D9%86%D9%8A%D8%A9%20%D9%85%D9%86%D8%B5%D8%A9%20%D8%A7%D9%84%D8%AA%D8%B3%D8%AC%D9%8A%D9%84": {
-   "items": 18
+   "items": 7
   },
   "https://www.bing.com/news/search?format=rss&setlang=ar&cc=MA&q=%D8%A7%D9%85%D8%AA%D8%AD%D8%A7%D9%86%D8%A7%D8%AA%20%D8%A7%D9%84%D9%83%D9%81%D8%A7%D8%A1%D8%A9%20%D8%A7%D9%84%D9%85%D9%87%D9%86%D9%8A%D8%A9%20%D9%85%D9%86%D8%B5%D8%A9%20%D8%A7%D9%84%D8%AA%D8%B3%D8%AC%D9%8A%D9%84": {
    "items": 2
@@ -265,28 +264,25 @@
    "items": 3
   },
   "https://news.google.com/rss/search?hl=ar&gl=MA&ceid=MA:ar&q=%D9%81%D8%AA%D8%AD%20%D8%A8%D8%A7%D8%A8%20%D8%A7%D9%84%D9%85%D8%B4%D8%A7%D8%B1%D9%83%D8%A9%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%AD%D8%B1%D9%83%D8%A9%20%D8%A7%D9%84%D8%A7%D9%86%D8%AA%D9%82%D8%A7%D9%84%D9%8A%D8%A9": {
-   "items": null,
-   "error": "HTTP 429"
+   "items": 11
   },
   "https://www.bing.com/news/search?format=rss&setlang=ar&cc=MA&q=%D9%81%D8%AA%D8%AD%20%D8%A8%D8%A7%D8%A8%20%D8%A7%D9%84%D9%85%D8%B4%D8%A7%D8%B1%D9%83%D8%A9%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%AD%D8%B1%D9%83%D8%A9%20%D8%A7%D9%84%D8%A7%D9%86%D8%AA%D9%82%D8%A7%D9%84%D9%8A%D8%A9": {
    "items": 0
   },
   "https://news.google.com/rss/search?hl=ar&gl=MA&ceid=MA:ar&q=%D8%A7%D9%84%D8%AD%D8%B1%D9%83%D8%A9%20%D8%A7%D9%84%D8%A7%D9%86%D8%AA%D9%82%D8%A7%D9%84%D9%8A%D8%A9%20%D8%A7%D9%84%D8%AC%D9%87%D9%88%D9%8A%D8%A9%20%D9%85%D8%B0%D9%83%D8%B1%D8%A9": {
-   "items": null,
-   "error": "skipped (site not answering)"
+   "items": 10
   },
   "https://www.bing.com/news/search?format=rss&setlang=ar&cc=MA&q=%D8%A7%D9%84%D8%AD%D8%B1%D9%83%D8%A9%20%D8%A7%D9%84%D8%A7%D9%86%D8%AA%D9%82%D8%A7%D9%84%D9%8A%D8%A9%20%D8%A7%D9%84%D8%AC%D9%87%D9%88%D9%8A%D8%A9%20%D9%85%D8%B0%D9%83%D8%B1%D8%A9": {
-   "items": 3
+   "items": 4
   },
   "https://news.google.com/rss/search?hl=ar&gl=MA&ceid=MA:ar&q=%D8%A7%D9%84%D8%AD%D8%B1%D9%83%D8%A9%20%D8%A7%D9%84%D8%A7%D9%86%D8%AA%D9%82%D8%A7%D9%84%D9%8A%D8%A9%20%D8%A7%D9%84%D9%85%D8%AD%D9%84%D9%8A%D8%A9%20%D9%85%D8%B0%D9%83%D8%B1%D8%A9": {
-   "items": null,
-   "error": "skipped (site not answering)"
+   "items": 7
   },
   "https://www.bing.com/news/search?format=rss&setlang=ar&cc=MA&q=%D8%A7%D9%84%D8%AD%D8%B1%D9%83%D8%A9%20%D8%A7%D9%84%D8%A7%D9%86%D8%AA%D9%82%D8%A7%D9%84%D9%8A%D8%A9%20%D8%A7%D9%84%D9%85%D8%AD%D9%84%D9%8A%D8%A9%20%D9%85%D8%B0%D9%83%D8%B1%D8%A9": {
    "items": 0
   },
   "https://www.bing.com/news/search?format=rss&setlang=ar&cc=MA&q=%D9%86%D8%AA%D8%A7%D8%A6%D8%AC%20%D9%85%D8%A8%D8%A7%D8%B1%D8%A7%D8%A9%20%D8%A7%D9%84%D8%AA%D8%B9%D9%84%D9%8A%D9%85%20%D8%A3%D8%B7%D8%B1%20%D8%A7%D9%84%D8%A3%D9%83%D8%A7%D8%AF%D9%8A%D9%85%D9%8A%D8%A7%D8%AA": {
-   "items": 2
+   "items": 3
   },
   "https://www.bing.com/news/search?format=rss&setlang=ar&cc=MA&q=%D9%86%D8%AA%D8%A7%D8%A6%D8%AC%20%D8%A7%D9%84%D8%A7%D9%86%D8%AA%D9%82%D8%A7%D8%A1%20%D8%A7%D9%84%D8%A3%D9%88%D9%84%D9%8A%20%D9%85%D8%A8%D8%A7%D8%B1%D8%A7%D8%A9%20%D8%A7%D9%84%D8%AA%D8%B9%D9%84%D9%8A%D9%85": {
    "items": 10
