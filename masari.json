@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "updated": "2026-11-27",
+ "updated": "2026-11-28",
  "calendar": [
   {
    "year": "2026-2027",
@@ -216,7 +216,18 @@
    "kind": "docs"
   }
  ],
- "results": [],
+ "results": [
+  {
+   "id": "b08fe641b2ae",
+   "type": "movement",
+   "title": "نقابة تعليمية تحتج على “هزالة” نتائج الحركات الانتقالية وتطالب برادة بالتدخل",
+   "published": "2026-11-28",
+   "academy": -1,
+   "url": "https://ar.lesiteinfo.com/maroc/%D9%86%D9%82%D8%A7%D8%A8%D8%A9-%D8%AA%D8%B9%D9%84%D9%8A%D9%85%D9%8A%D8%A9-%D8%AA%D8%AD%D8%AA%D8%AC-%D8%B9%D9%84%D9%89-%D9%87%D8%B2%D8%A7%D9%84%D8%A9-%D9%86%D8%AA%D8%A7%D8%A6%D8%AC-%D8%A7%D9%84-1016230.html",
+   "salt": "36549b021eaecf0f",
+   "hashes": []
+  }
+ ],
  "raises": [],
  "notice": ""
 }
